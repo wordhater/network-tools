@@ -55,11 +55,23 @@ def bruteforce(ssid, password=""):
             else:
                 print('failed to bruteforce password')
 
-print("STARTED")
+def main():
+    print("STARTED\nThis script is purely for educational use. Any consequenses or damages arising from the usage of it in an illegal or unethical way are purely the fault of the end-user, and in no way is the developer responsible for it.")
+    print('''
+What do you want to do:
+1: Log SSIDs of all found networks to file
+2: Bruteforce a particular network
+          ''')
+    option = int(input(">"))
+    if input == 1:
+        pass
+    elif input == 2:
+        find_networks()
+        print("enter the number following the network ssid to select")
+        for i in range(len(ssid_list)):
+            print(f"> {ssid_list[i]} < ({i})")
+        selected_network = int(input("Enter number here: "))
+        bruteforce(ssid_list[selected_network])
 
-find_networks()
-print("enter the number following the network ssid to select")
-for i in range(len(ssid_list)):
-    print(f"> {ssid_list[i]} < ({i})")
-selected_network = int(input("Enter number here: "))
-bruteforce(ssid_list[selected_network])
+if __name__ == '__main__':
+    main()

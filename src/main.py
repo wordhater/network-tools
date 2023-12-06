@@ -63,9 +63,9 @@ What do you want to do:
 2: Bruteforce a particular network
           ''')
     option = int(input(">"))
-    if input == 1:
+    if option == 1:
         pass
-    elif input == 2:
+    elif option == 2:
         find_networks()
         print("enter the number following the network ssid to select")
         for i in range(len(ssid_list)):

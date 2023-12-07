@@ -20,8 +20,6 @@ def find_networks():
     for i in range(len(ssids)):
         ssids[i] = ssids[i].strip()
         security[i] = security[i].strip()
-    print(ssids)
-    print(security)
     ssid_list = ssids
     security_list = security
 
@@ -64,7 +62,14 @@ What do you want to do:
           ''')
     option = int(input(">"))
     if option == 1:
-        pass
+        full_network_list = []
+        while True:
+            sleep(5)
+            find_networks()
+            for i in range(len(ssid_list)):
+                if not ssid_list[i] in full_network_list:
+                    full_network_list.append(ssid_list[i])
+            
     elif option == 2:
         find_networks()
         print("enter the number following the network ssid to select")

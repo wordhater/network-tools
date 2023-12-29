@@ -23,6 +23,13 @@ def find_networks():
     ssid_list = ssids
     security_list = security
 
+def lognetinfo():
+    network_list_full = []
+    network_security_list_full = []
+    while True:
+        sleep(15)
+        
+
 def bruteforce(ssid, password=""):
     if password == "":
         with open('resources/passwordlist.txt', 'r') as f:
@@ -62,14 +69,7 @@ What do you want to do:
           ''')
     option = int(input(">"))
     if option == 1:
-        full_network_list = []
-        while True:
-            sleep(5)
-            find_networks()
-            for i in range(len(ssid_list)):
-                if not ssid_list[i] in full_network_list:
-                    full_network_list.append(ssid_list[i])
-            
+        lognetinfo()
     elif option == 2:
         find_networks()
         print("enter the number following the network ssid to select")

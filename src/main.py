@@ -24,10 +24,19 @@ def find_networks():
     security_list = security
 
 def lognetinfo():
-    network_list_full = []
-    network_security_list_full = []
+    network_list_full = {}
+    global ssid_list
+    global security_list
     while True:
+        find_networks()
+        print(ssid_list)
+        print(security_list)
+        for i in range(len(ssid_list)):
+            if not ssid_list[i] in network_list_full:
+                network_list_full[ssid_list[i]] = security_list[i]
+        f = open
         sleep(15)
+
         
 
 def bruteforce(ssid, password=""):

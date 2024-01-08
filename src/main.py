@@ -34,8 +34,8 @@ def lognetinfo():
         for i in range(len(ssid_list)):
             if not ssid_list[i] in network_list_full:
                 network_list_full[ssid_list[i]] = security_list[i]
-        f = open("resources/networks.json")
-        f.write(network_list_full)
+        f = open("resources/networks.json", "w")
+        f.write(str(network_list_full))
         f.close()
         sleep(15)
 

